@@ -1,9 +1,13 @@
 export const PopupWithForm = (props) => {
-    console.log(`${props.isOpen}`);
+
+    function hundleClose() {
+        props.onClose();
+    }
+
     return (
         <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>
             <div className="popup__container">
-                <button className="popup__close" type="button" aria-label="Закрыть"></button>
+                <button className="popup__close" type="button" aria-label="Закрыть" onClick={hundleClose}></button>
                 <form className="form" name={props.name} method="post" noValidate>
                     <h2 className="form__title">{props.title}</h2>
                     <div className="form__section-container">
@@ -16,25 +20,24 @@ export const PopupWithForm = (props) => {
     )
 }
 
-
-const EditProfilePopup = () => {
+export const EditProfilePopup = () => {
     return (
         <PopupWithForm name="edit-profile" title="Редактировать профиль">
             <div className="form__section">
-                <input className="form__input form__input_type_profile-name" id="profile-name" type="text" name="name" placeholder="Введите имя" required
-                    minLength="2" maxLength="40" />
+                <input className="form__input form__input_type_profile-name" id="profile-name" type="text" name="name" placeholder="Введите имя" required minLength="2" maxLength="40" />
                 <span className="form__input-error" id="profile-name-error"></span>
             </div>
             <div className="form__section">
-                <input className="form__input form__input_type_job" id="profile-job" type="text" name="about" placeholder="О себе" required minLength="2"
-                    maxLength="200" />
+                <input className="form__input form__input_type_job" id="profile-job" type="text" name="about" placeholder="О себе" required minLength="2" maxLength="200" />
                 <span className="form__input-error" id="profile-job-error"></span>
             </div>
+            <button className="form__submit" type="submit" value="Сохранить">Сохранить</button>
         </PopupWithForm>
-    )
-}
+    );
+};
 
-const AddPlacePopup = () => {
+
+export const AddPlacePopup = () => {
     return (
         <PopupWithForm name="add-card" title="Новое место">
             <div className="form__section-container">
@@ -61,7 +64,7 @@ const ConfirmDeletePopup = () => {
     )
 }
 
-const EditAvatarPopup = () => {
+export const EditAvatarPopup = () => {
     return (
         <PopupWithForm name="edit-avatar" title="Обновить аватар">
             <h2 className="form__title">Обновить аватар</h2>
