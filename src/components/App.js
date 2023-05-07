@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
-import { PopupWithForm, EditProfilePopup, AddPlacePopup, EditAvatarPopup } from './PopupWithForm.js';
+import EditProfilePopup from './EditProfilePopup.js';
+import AddPlacePopup from './AddPlacePopup.js';
+import EditAvatarPopup from './EditAvatarPopup.js'
 import ImagePopup from './ImagePopup.js';
 
 function App() {
@@ -36,9 +38,18 @@ function App() {
       <Header />
       <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
       <Footer className="footer" />
-      <PopupWithForm name="edit-profile" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
-      <PopupWithForm name="add-card" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
-      <PopupWithForm name="edit-avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+      <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+      />
+      <AddPlacePopup
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+      />
+      <EditAvatarPopup
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+      />
       <ImagePopup />
 
     </div>
