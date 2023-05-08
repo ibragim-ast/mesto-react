@@ -23,7 +23,7 @@ function Main(props) {
             .then((data) => {
                 setCards(data)
             })
-    })
+    }, [])
 
     return (
         <main className="main">
