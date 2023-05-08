@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../utils/Api.js";
 import Card from "./Card.js";
 
-export default function Main(props) {
+function Main(props) {
 
     const [userName, setUserName] = useState('');
     const [userDescription, setUserDescription] = useState('');
@@ -53,7 +53,9 @@ export default function Main(props) {
                                 key={card._id}
                                 name={card.name}
                                 link={card.link}
-                                likes={card.likes.lenght}
+                                likes={card.likes}
+                                card={card}
+                                onCardClick={props.onCardClick}
                             />
                         )
                     })}
@@ -62,3 +64,5 @@ export default function Main(props) {
         </main>
     )
 }
+
+export default Main;
