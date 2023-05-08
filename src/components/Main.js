@@ -16,6 +16,7 @@ function Main(props) {
                 setUserDescription(data.about)
                 setUserAvatar(data.avatar)
             })
+            .catch((err) => console.log(`Ошибка ${err}`))
     }, []);
 
     useEffect(() => {
@@ -23,6 +24,7 @@ function Main(props) {
             .then((data) => {
                 setCards(data)
             })
+            .catch((err) => console.log(`Ошибка ${err}`))
     }, [])
 
     return (
