@@ -2,37 +2,47 @@ import { useEffect, useState } from "react";
 import { api } from "../utils/Api.js";
 import Card from "./Card.js";
 
-function Main(props) {
+function Main({
+    onEditProfile,
+    onAddPlace,
+    onEditAvatar,
+    onCardClick
+}) {
 
     const [userName, setUserName] = useState('');
     const [userDescription, setUserDescription] = useState('');
     const [userAvatar, setUserAvatar] = useState('');
     const [cards, setCards] = useState([]);
 
-    useEffect(() => {
-        api.getUserInfo()
-            .then((data) => {
-                setUserName(data.name)
-                setUserDescription(data.about)
-                setUserAvatar(data.avatar)
-            })
-            .catch((err) => console.log(`Ошибка ${err}`))
-    }, []);
+    const cardElements = cards.map((card) => {
+        return (
+            <li key={card._id}>
+                <Card
+                    card={card}
+                    onCardClick={onCardClick}
+                />
+            </li>
+        )
+    })
 
     useEffect(() => {
-        api.getInitialCards()
-            .then((data) => {
-                setCards(data)
+        Promise.all([api.getUserInfo(), api.getInitialCards()])
+            .then(([userData, cardsData]) => {
+                setUserName(userData.name);
+                setUserDescription(userData.about);
+                setUserAvatar(userData.avatar);
+                setCards(cardsData);
             })
-            .catch((err) => console.log(`Ошибка ${err}`))
-    }, [])
+            .catch((err) => console.log(`Ошибка ${err}`));
+    }, []);
+
 
     return (
         <main className="main">
             <section className="profile">
                 <button
                     className="profile__avatar-edit-btn"
-                    onClick={props.onEditAvatar}
+                    onClick={onEditAvatar}
                 >
                     <img
                         className="profile__image"
@@ -42,25 +52,24 @@ function Main(props) {
                 </button>
                 <div className="profile__info">
                     <h1 className="profile__user-name">{userName}</h1>
-                    <button className="profile__edit-button" type="button" aria-label="Редактировать" onClick={props.onEditProfile}></button>
+                    <button
+                        className="profile__edit-button"
+                        type="button"
+                        aria-label="Редактировать"
+                        onClick={onEditProfile}>
+                    </button>
                     <p className="profile__user-profession">{userDescription}</p>
                 </div>
-                <button className="profile__add-button" type="button" aria-label="Добавить" onClick={props.onAddPlace}></button>
+                <button
+                    className="profile__add-button"
+                    type="button"
+                    aria-label="Добавить"
+                    onClick={onAddPlace}>
+                </button>
             </section>
             <section className="cards">
                 <ul className="cards__list">
-                    {cards.map((card) => {
-                        return (
-                            <Card
-                                key={card._id}
-                                name={card.name}
-                                link={card.link}
-                                likes={card.likes}
-                                card={card}
-                                onCardClick={props.onCardClick}
-                            />
-                        )
-                    })}
+                    {cardElements}
                 </ul>
             </section>
         </main>

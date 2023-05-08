@@ -1,19 +1,20 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
 
-function EditAvatarPopup(props) {
+function EditAvatarPopup({ isOpen, onClose }) {
     return (
         <PopupWithForm
             name="edit-avatar"
             title="Обновить аватар"
-            isOpen={props.isOpen}
-            onClose={props.onClose}
+            isOpen={isOpen}
+            onClose={onClose}
         >
             <div className="form__section">
                 <input
                     id="form-input"
                     className="form__input"
-                    type="url" name="avatar"
+                    type="url"
+                    name="avatar"
                     placeholder="Аватар"
                     required
                     minLength="2"
