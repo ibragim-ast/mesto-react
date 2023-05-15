@@ -8,6 +8,7 @@ function Main({
     onEditAvatar,
     onCardClick,
     onCardLike,
+    onCardDelete,
     cards
 }) {
 
@@ -20,6 +21,7 @@ function Main({
                     card={card}
                     onCardClick={onCardClick}
                     onCardLike={onCardLike}
+                    onCardDelete={onCardDelete}
                 />
             </li>
         )
