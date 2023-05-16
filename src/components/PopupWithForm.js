@@ -13,7 +13,13 @@ function PopupWithForm(props) {
                     aria-label="Закрыть"
                     onClick={handleClose}>
                 </button>
-                <form className="form" name={props.name} method="post" noValidate>
+                <form
+                    className="form"
+                    name={props.name}
+                    method="post"
+                    noValidate
+                    onSubmit={props.onSubmit}
+                >
                     <h2 className="form__title">{props.title}</h2>
                     <div className="form__section-container">
                         {props.children}
