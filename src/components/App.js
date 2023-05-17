@@ -21,12 +21,13 @@ function App() {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([userData, cardsData]) => {
-      setCurrentUser(userData);
-      setCards(cardsData);
-    }).catch((err) => {
-      console.error(err);
-    });
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardsData]) => {
+        setCurrentUser(userData);
+        setCards(cardsData);
+      }).catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   function handleEditAvatarClick() {
@@ -69,6 +70,18 @@ function App() {
       })
   }
 
+  function handleUpdateUser(userData) {
+    api.setUserInfo({ userData })
+      .then(
+        (userData) => {
+          setCurrentUser(userData);
+          closeAllPopups();
+        })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -95,6 +108,7 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
