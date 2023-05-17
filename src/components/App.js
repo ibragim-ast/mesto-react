@@ -22,9 +22,11 @@ function App() {
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCardsList()])
+
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
         setCards(cardsData);
+        console.log(cardsData)
       }).catch((err) => {
         console.error(err);
       });
@@ -69,10 +71,11 @@ function App() {
 
   function handleAddPlaceSubmit(cardData) {
     api.createNewCard(cardData)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
+      .then(
+        (newCard) => {
+          setCards([newCard, ...cards]);
+          closeAllPopups();
+        })
       .catch((err) => {
         console.log(err);
       });
