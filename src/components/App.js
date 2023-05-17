@@ -82,6 +82,18 @@ function App() {
       });
   }
 
+  function handleUpdateAvatar(userData) {
+    api.setUserAvatar(userData)
+      .then(
+        (userData) => {
+          setCurrentUser(userData);
+          closeAllPopups();
+        })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -117,6 +129,8 @@ function App() {
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+
         />
         {selectedCard && (
           <ImagePopup

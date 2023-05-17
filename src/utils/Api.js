@@ -38,7 +38,7 @@ class Api {
       .then((res) => this._checkErrors(res))
   }
 
-  getEditAvatar(link) {
+  setUserAvatar(link) {
     return fetch(`${this._address}users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
