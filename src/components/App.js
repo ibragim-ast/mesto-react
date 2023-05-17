@@ -71,7 +71,7 @@ function App() {
   }
 
   function handleUpdateUser(userData) {
-    api.setUserInfo({ userData })
+    api.setUserInfo(userData)
       .then(
         (userData) => {
           setCurrentUser(userData);
