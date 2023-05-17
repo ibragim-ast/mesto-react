@@ -19,7 +19,7 @@ class Api {
       .then(res => this._checkErrors(res))
   }
 
-  getInitialCards() {
+  getCardsList() {
     return fetch(`${this._address}/cards`, {
       headers: this._headers
     })

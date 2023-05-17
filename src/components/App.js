@@ -21,10 +21,12 @@ function App() {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    Promise.all([api.getUserInfo(), api.getCardsList()])
+
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
         setCards(cardsData);
+        console.log(cardsData)
       }).catch((err) => {
         console.error(err);
       });
@@ -54,6 +56,18 @@ function App() {
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleAddPlaceSubmit(cardData) {
+    api.createNewCard(cardData)
+      .then(
+        (newCard) => {
+          setCards([newCard, ...cards]);
+          closeAllPopups();
+        })
       .catch((err) => {
         console.log(err);
       });
@@ -125,6 +139,7 @@ function App() {
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
