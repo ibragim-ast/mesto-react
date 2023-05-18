@@ -6,7 +6,7 @@ import Footer from './Footer.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js'
-import ImagePopup from './ImagePopup';
+import ImagePopup from './ImagePopup.js';
 import { api } from "../utils/Api";
 import { CurrentUserContext } from './CurrentUserContext';
 
@@ -22,11 +22,9 @@ function App() {
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCardsList()])
-
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
         setCards(cardsData);
-        console.log(cardsData)
       }).catch((err) => {
         console.error(err);
       });
@@ -49,6 +47,14 @@ function App() {
     setImagePopupOpen(true);
   }
 
+  function closeAllPopups() {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setImagePopupOpen(false);
+    setSelectedCard(null)
+  }
+
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
@@ -63,11 +69,10 @@ function App() {
 
   function handleAddPlaceSubmit(cardData) {
     api.createNewCard(cardData)
-      .then(
-        (newCard) => {
-          setCards([newCard, ...cards]);
-          closeAllPopups();
-        })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -86,11 +91,10 @@ function App() {
 
   function handleUpdateUser(userData) {
     api.setUserInfo(userData)
-      .then(
-        (userData) => {
-          setCurrentUser(userData);
-          closeAllPopups();
-        })
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -98,28 +102,18 @@ function App() {
 
   function handleUpdateAvatar(userData) {
     api.setUserAvatar(userData)
-      .then(
-        (userData) => {
-          setCurrentUser(userData);
-          closeAllPopups();
-        })
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  function closeAllPopups() {
-    setIsEditAvatarPopupOpen(false);
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setImagePopupOpen(false);
-    setSelectedCard(null)
-  }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-
         <Header />
         <Main
           onEditProfile={handleEditProfileClick}
@@ -145,7 +139,6 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
-
         />
         {selectedCard && (
           <ImagePopup
@@ -154,7 +147,6 @@ function App() {
             card={selectedCard}
           />
         )}
-
       </div>
     </CurrentUserContext.Provider>
   );

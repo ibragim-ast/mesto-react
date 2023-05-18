@@ -1,4 +1,5 @@
 function ImagePopup({ isOpen, onClose, card }) {
+
     return (
         <div className={`popup popup_type_large-image ${isOpen ? 'popup_opened' : ''}`}>
             <div className="popup__image-container">
