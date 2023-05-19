@@ -1,10 +1,12 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
-
+import FormValidator from './FormValidator.js';
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
-    const avatarRef = React.useRef()
+    const avatarRef = React.useRef();
+    const { values, errors, isValid, handleChange,
+        resetForm } = FormValidator({});
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -14,18 +16,23 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
         });
     }
 
+    React.useEffect(() => {
+        resetForm();
+    }, [isOpen, resetForm])
+
     return (
         <PopupWithForm
             name="edit-avatar"
             title="Обновить аватар"
             isOpen={isOpen}
             onClose={onClose}
+            isDisabled={!isValid}
             onSubmit={handleSubmit}
         >
             <div className="form__section">
                 <input
                     id="form-input"
-                    className="form__input"
+                    className={errors.avatar ? 'form__input form__input-error' : 'form__input'}
                     type="url"
                     name="avatar"
                     placeholder="Аватар"
@@ -33,8 +40,12 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
                     minLength="2"
                     maxLength="200"
                     ref={avatarRef}
+                    value={values.avatar || ''}
+                    onChange={handleChange}
                 />
-                <span className="form__input-error"></span>
+                <span className={errors.avatar ? 'form__input-error form__input-error_active' : 'form__input-error'}>
+                    {errors.avatar}
+                </span>
             </div>
         </PopupWithForm>
     )

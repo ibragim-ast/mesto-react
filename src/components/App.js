@@ -10,6 +10,7 @@ import ImagePopup from './ImagePopup.js';
 import { api } from "../utils/Api";
 import { CurrentUserContext } from './CurrentUserContext';
 
+
 function App() {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
