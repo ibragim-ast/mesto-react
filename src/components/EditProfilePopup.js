@@ -1,34 +1,27 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
 import { CurrentUserContext } from './CurrentUserContext';
+import FormValidator from './FormValidator.js';
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
     const currentUser = React.useContext(CurrentUserContext);
-    const [name, setName] = React.useState('')
-    const [description, setDescription] = React.useState('')
+    const { values, errors, isValid, handleChange, resetForm } = FormValidator({});
+
+    React.useEffect(() => {
+        if (currentUser) {
+            resetForm(currentUser);
+        } else {
+            resetForm();
+        }
+    }, [currentUser, resetForm, isOpen]);
+
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        onUpdateUser({
-            name,
-            about: description,
-        });
+        onUpdateUser(values);
         onClose()
-    }
-
-    React.useEffect(() => {
-        setName(currentUser.name);
-        setDescription(currentUser.about);
-    }, [currentUser]);
-
-    function handleChangeName(e) {
-        setName(e.target.value);
-    }
-
-    function handleChangeDescription(e) {
-        setDescription(e.target.value);
     }
 
     return (
@@ -38,10 +31,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
             isOpen={isOpen}
             onClose={onClose}
             onSubmit={handleSubmit}
+            isDisabled={isValid}
         >
             <div className="form__section">
                 <input
-                    className="form__input form__input_type_profile-name"
+                    className={errors.name ? 'form__input form__input-error' : 'form__input'}
                     id="profile-name"
                     type="text"
                     name="name"
@@ -49,15 +43,15 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
                     required
                     minLength="2"
                     maxLength="40"
-                    value={name}
-                    onChange={handleChangeName}
+                    value={values.name || ''}
+                    onChange={handleChange}
                 />
                 <span
-                    className="form__input-error"
-                    id="profile-name-error">
+                    className={errors.name ? 'form__input-error form__input-error_active' : 'form__input-error'}
+                    id="profile-name-error">{errors.name}
                 </span>
                 <input
-                    className="form__input form__input_type_job"
+                    className={errors.about ? 'form__input form__input-error' : 'form__input'}
                     id="profile-job"
                     type="text"
                     name="about"
@@ -65,12 +59,12 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
                     required
                     minLength="2"
                     maxLength="200"
-                    value={description}
-                    onChange={handleChangeDescription}
+                    value={values.about || ''}
+                    onChange={handleChange}
                 />
                 <span
-                    className="form__input-error"
-                    id="profile-job-error">
+                    className={errors.about ? 'form__input-error form__input-error_active' : 'form__input-error'}
+                    id="profile-job-error">{errors.about}
                 </span>
             </div>
         </PopupWithForm>
