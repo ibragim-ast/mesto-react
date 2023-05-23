@@ -84,13 +84,16 @@ function App() {
   function handleCardDelete(card) {
     api.deleteCard(card._id)
       .then(() => {
-        const newCards = cards.filter((currentCard) => currentCard._id !== card._id);
-        setCards(newCards);
+        setCards((prevCards) => {
+          const newCards = prevCards.filter((currentCard) => currentCard._id !== card._id);
+          return newCards;
+        });
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
+
 
   function handleUpdateUser(userData) {
     api.setUserInfo(userData)

@@ -1,12 +1,12 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
-import FormValidator from './FormValidator.js';
+import useFormValidator from '../hooks/useFormValidator.js';
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
     const avatarRef = React.useRef();
     const { values, errors, isValid, handleChange,
-        resetForm } = FormValidator({});
+        resetForm } = useFormValidator({});
 
     function handleSubmit(e) {
         e.preventDefault();
