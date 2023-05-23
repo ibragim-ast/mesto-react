@@ -4,8 +4,6 @@ import FormValidator from "./FormValidator.js";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
 
-    const nameRef = React.useRef();
-    const linkRef = React.useRef();
     const { values, errors, isValid, handleChange, resetForm } = FormValidator({});
 
     function handleSubmit(e) {
@@ -36,7 +34,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
                     required
                     minLength="2"
                     maxLength="30"
-                    ref={nameRef}
                     value={values.name || ''}
                     onChange={handleChange}
                 />
@@ -53,7 +50,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
                     name="link"
                     placeholder="Ссылка на картинку"
                     required
-                    ref={linkRef}
                     value={values.link || ''}
                     onChange={handleChange}
                 />
